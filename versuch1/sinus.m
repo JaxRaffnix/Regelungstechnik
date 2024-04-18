@@ -14,39 +14,43 @@ f2 = myfun(4, 6e3, time, -pi./4);
 f3 = f1 .* f1;
 
 % plotting
-layout = tiledlayout(4,1);
+sinplots = tiledlayout(4,1);
 nexttile
 plot(time, f1)
-xlabel("t in s")
-title("x1(t)")
+xlabel('t in s')
+title('x1(t)')
 nexttile
 plot(time, f2)
-xlabel("t in s")
-title("x2(t)")
+xlabel('t in s')
+title('x2(t)')
 nexttile
 plot(time, f3)
-xlabel("t in s")
+xlabel('t in s')
 title('x3(t)')
 nexttile
 plot(f1, f2)
-xlabel("x1(t)")
-ylabel("x2(t)")
-title("Lissajous-Figur")
+xlabel('x1(t)')
+ylabel('x2(t)')
+title('Lissajous-Figur')
+
+exportgraphics(sinplots, "sinus.pdf", 'ContentType','vector')
 
 % task d
 figure
 t=linspace(0.3,1e3);
-tiledlayout(2,1);
+lissplots = tiledlayout(2,1);
 nexttile
 plot(myfun(2, 2e3, t, 0), myfun(2, 6e3, t, -pi./4))
-xlabel("x1(t)")
-ylabel("x2(t)")
-title("Zeitbereich 0:3 s, 1000 Intervalle")
+xlabel('x1(t)')
+ylabel('x2(t)')
+title('Zeitbereich 0:3 s, 1000 Intervalle')
 
 % task e
 t=linspace(0.3,1e3+1);
 nexttile
 plot(myfun(2, 2e3, t, 0), myfun(2, 6e3, t, -pi./4))
-xlabel("x1(t)")
-ylabel("x2(t)")
-title("Zeitbereich 0:3 s, 1001 Intervalle")
+xlabel('x1(t)')
+ylabel('x2(t)')
+title('Zeitbereich 0:3 s, 1001 Intervalle')
+
+exportgraphics(lissplots, "lissjaou.pdf", 'ContentType','vector')

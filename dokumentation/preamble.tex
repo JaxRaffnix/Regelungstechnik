@@ -19,7 +19,7 @@
 \usepackage{booktabs}                               % better tables
 \usepackage{tabularx}                               % tables with pagewidth
 \usepackage{graphicx}                               % input pictures
-\usepackage{svg}
+% \usepackage{svg}
 \usepackage{xcolor}
 \usepackage{flushend}
 \usepackage{listingsutf8}
@@ -36,10 +36,10 @@
 %   Colors
 %-------------------------------------------------------------------------------------------------
 
-% \definecolor{colorblue}{HTML}{0480CC}				% color for weblinks
-% \definecolor{colordarkblue}{HTML}{4C1DCC}			% no use case at the moment
-% \definecolor{colorgreen}{HTML}{26CC1B}				% color for citations
-% \definecolor{colorred}{HTML}{CC1204}				% color for pdf links
+\definecolor{colorblue}{HTML}{0480CC}				% color for weblinks
+\definecolor{colordarkblue}{HTML}{4C1DCC}			% no use case at the moment
+\definecolor{colorgreen}{HTML}{26CC1B}				% color for citations
+\definecolor{colorred}{HTML}{CC1204}				% color for pdf links
 \definecolor{coloryellow}{HTML}{F0B707}			    % color for warnings
 
 %-------------------------------------------------------------------------------------------------
@@ -47,7 +47,7 @@
 %-------------------------------------------------------------------------------------------------
 
 \newlength{\imagewidth}
-\setlength{\imagewidth}{0.7\columnwidth}
+\setlength{\imagewidth}{0.9\columnwidth}
 
 %-------------------------------------------------------------------------------------------------
 %   Style Options
@@ -66,7 +66,7 @@
 
 \chead{Laborbericht Regelungstechnik}
 \ohead{Versuch Nr. \printlabor}
-\ihead{Jan Hoegen}
+\ihead{Jan Hoegen, Maileen Schwenk}
 
 \flushbottom                                        % fill pages to bottom
 
@@ -99,23 +99,22 @@
 }
 \title{Laborbericht Regelungstechnik}
 
-\publishers{Betreuer: Prof. Dr. Keller}
+% \publishers{Betreuer: Prof. Dr. Keller}
 
 \author{%
     Jan Hoegen\thanks{%
         Matrikel-Nr. 82358. E-Mail \href{jan.hoegen@web,de}{jan.hoegen@web,de}}%
-    % \and%
-    % Rithik Kurmar\thanks{%
-    %     Matrikel-Nr. . E-mail \href{}{}}
+    \and%
+    Maileen Schwenk\thanks{%
+        Matrikel-Nr. . E-Mail \href{}{}}
 }
 
 \newcommand{\labor}[1]{\newcommand{\printlabor}{#1}}
 
 \AtBeginDocument{
     \subtitle{Versuch Nr.~\printlabor}
-    
     \hypersetup{
-        pdftitle = {RT Labor \printlabor\ | Hoegen},
+        pdftitle = {RT Labor \printlabor\ | Hoegen, Schwenk},
     }
 }
 
@@ -127,18 +126,15 @@
 	frame			=	tb ,							%	horizontale Linie oben&unten
 	breaklines		=	true,							%	Zeilenumbruch
 	rulecolor		=	\color{black} ,					%	Rahmenfarbe ist schwarz
-	% keywordstyle	=	\keywordcolor ,
-	% commentstyle	=	\commentcolor ,
-	% stringstyle		=	\stringcolor ,
+	keywordstyle	=	\color{colorblue} ,
+	commentstyle	=	\color{colorgreen} ,
+	stringstyle		=	\color{colordarkblue} ,
 	title			=	\lstname ,						%	Titel ist gleich dem Dateinamen
 	basicstyle		=	\footnotesize\ttfamily ,		%	Kleine Schrift und Monospace
 	% numbers			=	right,							%	Zeilennumber rechts (da marginalie links)
 	inputencoding	=	utf8,  							% Input encoding
     extendedchars	=	true,  							% Extended ASCII
 }
-% \lstdefinestyle{TeX}{language=TeX,						%	Mehr Keywörter für TeX
-%     morekeywords={vspcae, hspace, rule, ifdefined, newcommand, setlength, newlentgh, RequirePackage, ProvidesPackage, NeedsTexFormat, DeclareOption, ProcessOption}, 
-% }
 \lstset{literate=							%	ermöglicht Unicode-Zeichen in Listing!
   {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
   {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
