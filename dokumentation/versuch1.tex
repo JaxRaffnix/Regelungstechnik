@@ -3,8 +3,8 @@
 \documentclass[
     paper=a4,
     fontsize=10pt,
-    DIV=calc,
-    twocolumn,
+    DIV=13,
+    % twocolumn,
     oneside,
 ]{scrartcl}
 
@@ -51,18 +51,18 @@
         x_1(t) &= 2 \cdot sin(2\pi \cdot \SI{6}{\kilo\hertz} \cdot t - \frac{\pi}{4})
     \end{align}
 
-    Darüber hinaus wird das Zusammengesetze Signal \(x_3(t)=x_1(t) \cdot x_1(t)\) sowie eine Lissajous-Figur mit \(x_1(t)\) auf der x-Achse und \(x_2(t)\) auf der y-Achse abgebildet. Es ist zu erkennen, dass die Frequenz das doppelte von \(x_1(t)\) beträgt.
+    Darüber hinaus wird das zusammen gesetzte Signal \(x_3(t)=x_1(t) \cdot x_1(t)\) sowie eine Lissajous-Figur mit \(x_1(t)\) auf der x-Achse und \(x_2(t)\) auf der y-Achse abgebildet. Es ist zu erkennen, dass die Frequenz das doppelte von \(x_1(t)\) mit einem DC-Offset beträgt. Der Code zum Erstellen der Grafiken ist in Anhang \ref{lst:sinus} zu sehen.
 
     \begin{figure}[hbt]
         \centering
         \includegraphics[width=\imagewidth]{../versuch1/sinus.pdf}
         \caption{Darstellung der Sinussignale}
-        \legend{Darstellung in \(10^3\) Intervallen}
+        \legend{Darstellung mit \(10^3\) Abtastpunkten}
         \label{fig:sinus}
     \end{figure}
 
     \subsection{Fehlerhafte Darstellungen der Lissajous-Figur}
-        Wird der Zeitbereich auf \SIrange{0}{3}{\second} gelegt und somit die Größenordnung um \(10^3\) erhöht, ist die Figur zur Abbildung \ref{fig:sinus} gleich. Wird der Zeitbereich auf \missing
+        Wird der Zeitbereich auf \SIrange{0}{3}{\second} gelegt und somit die Größenordnung um \(10^3\) erhöht, ist die Figur zur Abbildung \ref{fig:sinus} gleich. Wird der Zeitbereich auf leicht verschoben, entsteht ein nicht interpretierbares Bild. Diese Effekte sind durch den Aliasing-Effekt zu begründen.
         Beide Änderungen sind in Abbildung \ref{fig:lissajous} gezeigt.
 
         \begin{figure}[hbt]
@@ -79,13 +79,13 @@
         \frac{U_a}{U_e} = \frac{1}{1+jwRC}
     \end{align}
 
-    Die Bauteilwerte mit einer Grenzfrequenz von \SI{100}{\kilo\hertz} und einem gewählten Kondensator von \SI{1e-9}{\farad} berechnen sich zu:
+    Die Bauteilwerte mit einer Grenzfrequenz von \SI{100}{\kilo\hertz} und einem gewählten Kondensator \(C\) von \SI{1e-9}{\farad} berechnen sich zu:
     \begin{align}
         f_g &= \frac{1}{2 \pi RC} \overset{!}{=} \SI{1e5}{\hertz}\\
-        \Rightarrow R&= \frac{1}{2 \pi \cdot \SI{e5}{\hertz} \cdot \SI{e-9}{\farad}} = \SI{1591.55}{\ohm}
+        \Rightarrow R&= \frac{1}{2 \pi \cdot f_g \cdot C }= \SI{1591.55}{\ohm}
     \end{align}
 
-    Das Bodediagramm ist in Abbildung \ref{fig:bode} und die zugehörige Ortskurve in Abbildung \ref{fig:ortskurve} dargestellt. Da die Ortskurve achsensymmetrisch zur x-Achse ist, kann das Diagramm ohne den Verlust von Informationen um genau diese Spiegelung verkürzt werden. In MATLAB wird dies durch die Option \verb|ShowFullContour='off'| des \verb|nyquistplot|-Befehls erreicht.
+    Das Bodediagramm ist in Abbildung \ref{fig:bode} und die zugehörige Ortskurve in Abbildung \ref{fig:ortskurve} dargestellt. Da die Ortskurve achsensymmetrisch zur x-Achse ist, kann das Diagramm ohne den Verlust von Informationen um genau diese Spiegelung verkürzt werden. In MATLAB wird dies durch die Option \verb|ShowFullContour='off'| des \verb|nyquistplot|-Befehls erreicht. Der Code zum Erstellen der Diagramme findet sich in Anhang \ref{lst:tiefpass}.
 
     \begin{figure}
         \centering
@@ -102,15 +102,21 @@
     \end{figure}
 
 \section{Temperaturregler}
-    Nun wird ein Temperaturregler simuliert. 
+    Nun wird ein Temperaturregler in Abbildung \ref{_schaltbild} simuliert. Der Zeitverlauf der eingestellten Solltemperatur, der Stellgröße und der Ausgangsgröße sind in Abbildung \ref{fig:temp_regler} dargestellt. Es ist zu erkennen, dass bei eingeschalteten Heizelement die Temperatur im Backofen schnell steigt bis zur Zieltemperatur von \SI{160}{\celsius}. Anschließend wird periodisch auf- und abgewärmt, bis die Führungsgröße auf \SI{0}{\celsius} verändert wird und die Temperatur absinkt. Die Parameter wurden im Anhang \ref{lst:temp_regler} definiert.
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\imagewidth]{../versuch1/temp_regler_schaltbild.pdf}
+        \caption{Blockschaltbild des Temperaturreglers}
+        \label{fig:temp_regler_schaltbild}
+    \end{figure}    
 
     \begin{figure*}
         \centering
         % \includegraphics[width=\imagewidth]{../versuch1/temp_regler.pdf}
-        \includesvg[width=2\imagewidth, inkscapelatex=false]{../versuch1/temp_regler.svg}
+        \includesvg[width=\imagewidth, inkscapelatex=false]{../versuch1/temp_regler.svg}
         \caption{Zeitsignal der Regelgrößen}
         \label{fig:temp_regler}
-        % \legend{blau: Führungsgröße, rot: Stellgröße, grün: Regelgröße}
     \end{figure*}
 
 %-------------------------------------------------------------------------------------------------
@@ -130,10 +136,14 @@
 %-------------------------------------------------------------------------------------------------
 
 \appendix
-\section{Anhang}
 
-    \lstinputlisting[language=MATLAB]{../versuch1/sinus.m}
+\section{MATLAB-Code der Sinussignale}
+    \lstinputlisting[language=MATLAB, label={lst:sinus}]{../versuch1/sinus.m}
 
-    \lstinputlisting[language=MATLAB]{../versuch1/tiefpass.m}
+\section{MATLAB-Code zum Tiefpass}
+    \lstinputlisting[language=MATLAB, label={lst:tiefpass}]{../versuch1/tiefpass.m}
+
+\section{MATLAB-Code zum Temperaturregler}
+    \lstinputlisting[language=MATLAB, label={lst:temp_regler}]{../versuch1/temp_regler_settings.m}
 
 \end{document}
