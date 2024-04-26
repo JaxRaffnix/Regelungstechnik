@@ -1,7 +1,9 @@
 clear
 
+LOCAL_DIRECTORY = "C:\Users\janho\Coding\Regelungstechnik\versuch1\";
+
 % x-Axis
-time = linspace(0, 3e-3);
+time = linspace(0, 3e-3, 1e3);
 
 % declare functions
 function f1 = sine1(time)
@@ -35,7 +37,8 @@ xlabel('x1(t)')
 ylabel('x2(t)')
 title('Lissajous-Figur')
 
-exportgraphics(sinplots, "sinus.pdf", 'ContentType','vector')
+% exportgraphics(sinplots, "sinus.pdf", 'ContentType','vector') % known bug in matlab: exportgraphics won't save axis exponent!
+saveas(sinplots, LOCAL_DIRECTORY + 'sinus.png')
 
 % plot with wrong paramters
 figure
@@ -60,4 +63,4 @@ xlabel('x1(t)')
 ylabel('x2(t)')
 title('Zeitbereich 0:3 s, 1001 Intervalle')
 
-exportgraphics(lissplots, "lissjaou.pdf", 'ContentType','vector')
+saveas(lissplots, LOCAL_DIRECTORY + "lissjaou.png")

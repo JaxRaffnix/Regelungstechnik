@@ -55,7 +55,7 @@
 
     \begin{figure}[hbt]
         \centering
-        \includegraphics[width=\imagewidth]{../versuch1/sinus.pdf}
+        \includegraphics[width=\imagewidth]{../versuch1/sinus}
         \caption{Darstellung der Sinussignale}
         \legend{Darstellung mit \(10^3\) Abtastpunkten}
         \label{fig:sinus}
@@ -67,7 +67,7 @@
 
         \begin{figure}[hbt]
             \centering
-            \includegraphics[width=\imagewidth]{../versuch1/lissjaou.pdf}
+            \includegraphics[width=\imagewidth]{../versuch1/lissjaou}
             \caption{Fehlerhafte Lissajous-Figuren}
             \label{fig:lissajous}
         \end{figure}
@@ -89,20 +89,20 @@
 
     \begin{figure}
         \centering
-        \includegraphics[width=\imagewidth]{../versuch1/bode.pdf}
+        \includegraphics[width=\imagewidth]{../versuch1/bode}
         \caption{Bodediagramm des Tiefpasses}
         \label{fig:bode}
     \end{figure}
 
     \begin{figure}
         \centering
-        \includegraphics[width=\imagewidth]{../versuch1/ortskurve.pdf}
+        \includegraphics[width=\imagewidth]{../versuch1/ortskurve}
         \caption{Ortskurven des Tiefpasses}
         \label{fig:ortskurve}
     \end{figure}
 
 \section{Temperaturregler}
-    Nun wird ein Temperaturregler in Abbildung \ref{_schaltbild} simuliert. Der Zeitverlauf der eingestellten Solltemperatur, der Stellgröße und der Ausgangsgröße sind in Abbildung \ref{fig:temp_regler} dargestellt. Es ist zu erkennen, dass bei eingeschalteten Heizelement die Temperatur im Backofen schnell steigt bis zur Zieltemperatur von \SI{160}{\celsius}. Anschließend wird periodisch auf- und abgewärmt, bis die Führungsgröße auf \SI{0}{\celsius} verändert wird und die Temperatur absinkt. Die Parameter wurden im Anhang \ref{lst:temp_regler} definiert.
+    Nun wird ein Temperaturregler in Abbildung \ref{temp_regler_schaltbild} simuliert. Der Zeitverlauf der eingestellten Solltemperatur, der Stellgröße und der Ausgangsgröße sind in Abbildung \ref{fig:temp_regler} dargestellt. Es ist zu erkennen, dass bei eingeschalteten Heizelement die Temperatur im Backofen schnell steigt bis zur Zieltemperatur von \SI{160}{\celsius}. Anschließend wird periodisch auf- und abgewärmt, bis die Führungsgröße auf \SI{0}{\celsius} verändert wird und die Temperatur absinkt. Die Parameter wurden im Anhang \ref{lst:temp_regler} definiert.
 
     \begin{figure}
         \centering
@@ -144,6 +144,6 @@
     \lstinputlisting[language=MATLAB, label={lst:tiefpass}]{../versuch1/tiefpass.m}
 
 \section{MATLAB-Code zum Temperaturregler}
-    \lstinputlisting[language=MATLAB, label={lst:temp_regler}]{../versuch1/temp_regler_settings.m}
+    \lstinputlisting[language=MATLAB, label={lst:temp_regler}]{../versuch1/temp_regler.m}
 
 \end{document}
