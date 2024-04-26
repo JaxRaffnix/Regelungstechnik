@@ -1,6 +1,6 @@
 % global parameters
 LOCAL_DIRECTORY = "C:\Users\janho\Coding\Regelungstechnik\versuch1\";
-STOPTIME = 70*60 - 1;
+STOPTIME = 70*60 - 1;   % hide last data point to hide second positive flank of the pulse generator
 POINTS = 1e2;
 
 STEPSIZE = STOPTIME / POINTS;
@@ -22,23 +22,24 @@ controlller_on = 0.01;
 controller_off = -0.01;
 output_new = sim(model, "StopTime", num2str(STOPTIME), 'FixedStep', num2str(STEPSIZE));  % 1: control variable, 2: manipulated_variable, 3: reference_variable
 
+% plotting
+variables = {"Führungsgröße", "Stellgröße", "Regelgröße"};
+unnit = {"Spannung in V", };
 figure;
-subplot(1,2,1)      % rows, columns, position
-outputplot = tiledlayout(3,1);
-title(outputplot, "alte controller werte")
-nexttile
+% title(outputplot, "alte controller werte")
+subplot(3,2,1)      % rows, columns, position
 plot(output.yout{1}.Values.Time, output.yout{1}.Values.Data)
-nexttile
+subplot(3,2,3)
 plot(output.yout{2}.Values.Time, output.yout{2}.Values.Data)
-nexttile
+subplot(3,2,5)
 plot(output.yout{2}.Values.Time, output.yout{3}.Values.Data)
 
-subplot(1,2,2)      % rows, columns, position
-outputplot_new = tiledlayout(3,1);
-nexttile
+subplot(3,2,2)
 plot(output_new.yout{1}.Values.Time, output_new.yout{1}.Values.Data)
-nexttile
+subplot(3,2,4)
 plot(output_new.yout{2}.Values.Time, output_new.yout{2}.Values.Data)
-nexttile
+subplot(3,2,6)
 plot(output_new.yout{2}.Values.Time, output_new.yout{3}.Values.Data)
-title(outputplot_new, "neue controller werte")
+
+% save block diagram
+print('-stempregler_modell', '-dpng', LOCAL_DIRECTORY + 'output.png')
