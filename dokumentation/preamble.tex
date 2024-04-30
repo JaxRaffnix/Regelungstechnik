@@ -23,6 +23,7 @@
 \usepackage{xcolor}
 \usepackage{flushend}
 \usepackage{listingsutf8}
+\usepackage{subcaption}
 
 \usepackage{csquotes}                               % quote environment
 \usepackage[
@@ -47,7 +48,7 @@
 %-------------------------------------------------------------------------------------------------
 
 \newlength{\imagewidth}
-\setlength{\imagewidth}{0.9\columnwidth}
+\setlength{\imagewidth}{0.6\columnwidth}
 
 %-------------------------------------------------------------------------------------------------
 %   Style Options
@@ -97,7 +98,8 @@
     University of Applied Sciences\\
     Fakultät für Elektro- und Informationstechnik
 }
-\title{Laborbericht Regelungstechnik}
+\subject{Labor Regelungstechnik}
+\title{Einführung in MATLAB und SIMULINK}
 
 % \publishers{Betreuer: Prof. Dr. Keller}
 
@@ -112,7 +114,7 @@
 \newcommand{\labor}[1]{\newcommand{\printlabor}{#1}}
 
 \AtBeginDocument{
-    \subtitle{Versuch Nr.~\printlabor}
+    \subtitle{Laborbericht zum Versuch Nr.~\printlabor}
     \hypersetup{
         pdftitle = {RT Labor \printlabor\ | Hoegen, Schwenk},
     }
@@ -131,7 +133,7 @@
 	stringstyle		=	\color{colordarkblue} ,
 	title			=	\lstname ,						%	Titel ist gleich dem Dateinamen
 	% basicstyle		=	\footnotesize\ttfamily ,		%	Kleine Schrift und Monospace
-    basicstyle		=	\scriptsize\ttfamily ,		%	Kleine Schrift und Monospace
+    basicstyle		=	\tiny\ttfamily ,		        %	Kleine Schrift und Monospace
 	% numbers			=	right,							%	Zeilennumber rechts (da marginalie links)
 	inputencoding	=	utf8,  							% Input encoding
     extendedchars	=	true,  							% Extended ASCII
@@ -159,4 +161,5 @@
     {ß}{{\ss}}1
     {ü}{{\"u}}1
     {ö}{{\"o}}1
+    {°}{\textdegree}1
 }

@@ -22,24 +22,29 @@ controlller_on = 0.01;
 controller_off = -0.01;
 output_new = sim(model, "StopTime", num2str(STOPTIME), 'FixedStep', num2str(STEPSIZE));  % 1: control variable, 2: manipulated_variable, 3: reference_variable
 
-% plotting
-variables = {"Führungsgröße", "Stellgröße", "Regelgröße"};
-unnit = {"Spannung in V", };
-figure;
-% title(outputplot, "alte controller werte")
-subplot(3,2,1)      % rows, columns, position
-plot(output.yout{1}.Values.Time, output.yout{1}.Values.Data)
-subplot(3,2,3)
-plot(output.yout{2}.Values.Time, output.yout{2}.Values.Data)
-subplot(3,2,5)
-plot(output.yout{2}.Values.Time, output.yout{3}.Values.Data)
 
-subplot(3,2,2)
-plot(output_new.yout{1}.Values.Time, output_new.yout{1}.Values.Data)
-subplot(3,2,4)
-plot(output_new.yout{2}.Values.Time, output_new.yout{2}.Values.Data)
-subplot(3,2,6)
-plot(output_new.yout{2}.Values.Time, output_new.yout{3}.Values.Data)
+% plotting
+label = {"Führungsgröße in °C", "Stellgröße in V", "Regelgröße in °C"};
+
+figure;
+tempregler_plot = tiledlayout("vertical");
+for i = 1:3
+    nexttile
+    plot(output.yout{1}.Values.Time, output.yout{i}.Values.Data);
+    title(label(i))
+end
+xlabel(tempregler_plot, "Zeit in s")
+saveas(tempregler_plot, LOCAL_DIRECTORY + "tempregler_plot.png")
+
+figure;
+tempregler_plot_new = tiledlayout("vertical");
+for i = 1:3
+    nexttile
+    plot(output_new.yout{1}.Values.Time, output_new.yout{i}.Values.Data);
+    title(label(i))
+end
+xlabel(tempregler_plot_new, "Zeit in s")
+saveas(tempregler_plot_new, LOCAL_DIRECTORY + "tempregler_plot_new.png")
 
 % save block diagram
-print('-stempregler_modell', '-dpng', LOCAL_DIRECTORY + 'output.png')
+print('-stempregler_modell', '-dpng', LOCAL_DIRECTORY + 'tempregler_block.png')

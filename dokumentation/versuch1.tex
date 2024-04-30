@@ -43,6 +43,9 @@
 %   Text
 %-------------------------------------------------------------------------------------------------
 
+\section{Einleitung}
+    In diesem Laborbericht werden grundlegende Funktionen von MATLAB verwendet, um Systeme zu beschreiben, analysieren und grafisch darzustellen. Im ersten Abschnitt werden Sinussignale und ihre Lissajousfiguren im Zeitbereich dargestellt. Anschließend wird ein Hochpass erster Ordnung simuliert und durch sein Bodediagramm und seine Ortskurve dargestellt. Abschließend wird die Temperaturregelung eines Backofens betrachtet. Mit SIMULINK wird ein Blockschaltbild erzeugt, damit werden die Regelvariablen simuliert und abgebildet.
+
 \section{Darstellung von Sinussignalen}
     Die Funktionen aus der Versuchsanleitung \cite{versuch1} werden mit MATLAB simuliert und in Abbildung \ref{fig:sinus} dargestellt.
 
@@ -106,18 +109,28 @@
 
     \begin{figure}
         \centering
-        % \includegraphics[width=1\imagewidth]{../versuch1/temp_regler_schaltbild.pdf}
+        \includegraphics[width=\imagewidth]{../versuch1/tempregler_block.png}
         \caption{Blockschaltbild des Temperaturreglers}
         \label{fig:temp_regler_schaltbild}
     \end{figure}    
 
-    \begin{figure*}
+    
+    \begin{figure}
         \centering
-        % \includegraphics[width=\imagewidth]{../versuch1/temp_regler.pdf}
-        % \includesvg[width=\imagewidth, inkscapelatex=false]{../versuch1/temp_regler.svg}
-        \caption{Zeitsignal der Regelgrößen}
-        \label{fig:temp_regler}
-    \end{figure*}
+        \begin{subfigure}{0.49\columnwidth}
+            \includegraphics[width=1.0\columnwidth]{../versuch1/tempregler_plot.png}
+            \caption{Zeitsignal der Regelgrößen}
+            \label{fig:temp_regler}    
+            \legend{Grenzes: \missing}
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}{0.49\columnwidth}
+            \includegraphics[width=1.0\columnwidth]{../versuch1/tempregler_plot_new.png}
+            \caption{Zeitsignal mit veränderten Regelgrößen}
+            \label{fig:tempregler_new}
+        \legend{Grenzes: \missing}
+        \end{subfigure}
+    \end{figure}
 
 %-------------------------------------------------------------------------------------------------
 %   Biblography
