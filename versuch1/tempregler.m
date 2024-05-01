@@ -1,9 +1,9 @@
 % global parameters
 LOCAL_DIRECTORY = "C:\Users\janho\Coding\Regelungstechnik\versuch1\";
 STOPTIME = 70*60 - 1;   % hide last data point to hide second positive flank of the pulse generator
-POINTS = 1e2;
+POINTS = 1e3;
 
-STEPSIZE = STOPTIME / POINTS;
+STEPSIZE = STOPTIME / POINTS
 
 
 % set model parameters
@@ -15,7 +15,8 @@ time_const = 15*60;
 % run first simulation
 controlller_on = 0.2;
 controller_off = -0.2;
-output = sim(model, "StopTime", num2str(STOPTIME), 'FixedStep', num2str(STEPSIZE));  % 1: control variable, 2: manipulated_variable, 3: reference_variable
+% output = sim(model, "StopTime", num2str(STOPTIME), 'FixedStep', num2str(STEPSIZE));  % 1: control variable, 2: manipulated_variable, 3: reference_variable
+output = sim(model, "StopTime", num2str(STOPTIME));  % 1: control variable, 2: manipulated_variable, 3: reference_variable
 
 % second simulation with changed parameters
 controlller_on = 0.01;

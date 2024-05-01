@@ -43,24 +43,24 @@ saveas(sinplots, LOCAL_DIRECTORY + 'sinus.png')
 % plot with wrong paramters
 figure
 lissplots = tiledlayout(2,1);
-time = linspace(0, 3, 1e3);
+time_new = linspace(0, 3, 1e3);
 
 nexttile
-f1 = sine1(time);
-f2 = sine2(time);
+f1 = sine1(time_new);
+f2 = sine2(time_new);
 plot(f1, f2)
 xlabel('x1(t)')
 ylabel('x2(t)')
-title('Zeitbereich 0:3 s, 1000 Intervalle')
+title('Zeitbereich 0:3 s, 1000 Abtastpunkte')
 
 % another set of wrong paramters
-time = linspace(0, 3, 1e3+1);
+time_new_new = linspace(0, 3, 1e3+1);
 nexttile
-f1 = sine1(time);
-f2 = sine2(time);
+f1 = sine1(time_new_new);
+f2 = sine2(time_new_new);
 plot(f1, f2)
 xlabel('x1(t)')
 ylabel('x2(t)')
-title('Zeitbereich 0:3 s, 1001 Intervalle')
+title('Zeitbereich 0:3 s, 1001 Abtastpunkte')
 
 saveas(lissplots, LOCAL_DIRECTORY + "lissjaou.png")

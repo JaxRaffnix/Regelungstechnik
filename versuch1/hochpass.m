@@ -3,10 +3,12 @@ clear
 LOCAL_DIRECTORY = "C:\Users\janho\Coding\Regelungstechnik\versuch1\";
 
 FREQUENCY = 100e3;
-CAPACITOR = 1e-9;
-RESISTOR = 1 / (2.*pi.*FREQUENCY.*CAPACITOR)    % = 1.5915e+03
+RESISTOR = 1e3;
+CAPACITOR = 1 / (2.*pi.*FREQUENCY.*RESISTOR)    % = 1.5915e-9
+
+numerator = [RESISTOR*CAPACITOR, 0];
 denominator = [RESISTOR*CAPACITOR, 1];
-system = tf(1, denominator);
+system = tf(numerator, denominator);
 
 figure;
 bode = bodeplot(system);
