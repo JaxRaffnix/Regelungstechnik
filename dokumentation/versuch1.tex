@@ -3,7 +3,7 @@
 \documentclass[
     paper=a4,
     fontsize=10pt,
-    DIV=13,
+    DIV=12,
     % twocolumn,
     oneside,
 ]{scrartcl}
@@ -72,7 +72,7 @@
         f_{s,neu} = \frac{\num{e3}}{\SI{3}{\second}} = \SI{333.3}{\hertz}
     \end{align}
 
-    Die Frequenz der Signale \(x_1(t)\) und \(x_2(t)\) ist deutlich größer als die halbe Abtastfrequenz \(f_{s,neu}\), dass Abtasttheorem von Shannon ist verletzt und es kommt zum Aliasing. Da das Frequenzverhältnis der falsch aufgenommen Signale weiterhin identisch ist, bleibt die Lissajous-Figur identisch.
+    Die Frequenz der Signale \(x_1(t)\) und \(x_2(t)\) ist deutlich größer als die halbe Abtastfrequenz \(f_{s,neu}\), dass Abtasttheorem von Shannon ist verletzt und es kommt zum Aliasing. Da das Frequenzverhältnis der falsch aufgenommen Signale weiterhin 1:3 beträgt, bleibt die Lissajous-Figur jedoch identisch.
     
     Beim Verändern der Abtastpunkte entsteht ein nicht interpretierbares Bild. Das ist darin begründet, dass das Frequenzverhältnis der gemessenen Frequenzen nicht mehr als Bruch zweier ganzer Zahlen dargestellt werden kann. Beide Änderungen sind in Abbildung \ref{fig:lissajous} gezeigt. Der Code zum Erstellen der Grafiken befindet sich im Anhang \ref{lst:sinus}.
 
@@ -84,7 +84,7 @@
     \end{figure}
 
 \section{Analyse eines Hochpasses}
-    Zunächst werden die Bauteilwerte eines RC-Hochpasses bestimmt, bevor die Analyse mit MATLAB beginnt. Allgemein gilt für den Zusammenhang zwischen Eingangsspannung \(U_e\) und Ausgangsspannung \(U_e\) bei einem RC-Hochpass erster Ordnung:
+    Zunächst werden die Bauteilwerte eines RC-Hochpasses bestimmt, bevor die Analyse mit MATLAB beginnt. Allgemein gilt für den Zusammenhang zwischen Eingangsspannung \(U_e\) und Ausgangsspannung \(U_a\) bei einem RC-Hochpass erster Ordnung:
     
     \begin{align}
         \label{eq:hochpass}
@@ -95,18 +95,23 @@
         C &= \frac{1}{2 \pi R f_g} = \SI{1.59e-9}{\farad}
     \end{align}
 
-    Nun kann das vollständige Übertragungssystem in MATLAB verwendet werden. Das erzeugte Bodediagramm findet sich in Abbildung \ref{fig:bode} und die zugehörige Ortskurve in Abbildung \ref{fig:ortskurve}. Da beim Betrachten von negativen Frequenzen auf der Ortskurve die Funktion achsensymmetrisch zur x-Achse ist, kann das Diagramm ohne den Verlust von Informationen um genau diese Spiegelung verkürzt werden. Dies wird durch die Option \verb|ShowFullContour='off'| des \verb|nyquistplot|-Befehls erreicht. Der Code zum Erstellen der Diagramme findet sich in Anhang \ref{lst:tiefpass}.
+    Nun kann das vollständige Übertragungssystem \(G(s)\) in MATLAB verwendet werden. 
+    \begin{align}
+        G(s) = \frac{RCs}{RCs + 1} = \frac{\SI{1.59}{\micro\ohm\farad} \cdot s}{\SI{1.59}{\micro\ohm\farad} \cdot s + 1}
+    \end{align}
+    
+    Das erzeugte Bodediagramm findet sich in Abbildung \ref{fig:bode} und die zugehörige Ortskurve in Abbildung \ref{fig:ortskurve}. Da beim Betrachten von negativen Frequenzen auf der Ortskurve die Funktion achsensymmetrisch zur x-Achse ist, kann das Diagramm ohne den Verlust von Informationen um genau diese Spiegelung verkürzt werden. Dies wird durch die Option \verb|ShowFullContour='off'| des \verb|nyquistplot|-Befehls erreicht. Der Code zum Erstellen der Diagramme findet sich in Anhang \ref{lst:tiefpass}.
 
     \begin{figure}[hbt]
         \centering
-        \includegraphics[width=\imagewidth]{../versuch1/bode}
+        \includegraphics[width=0.7\imagewidth]{../versuch1/bode}
         \caption{Bodediagramm des Hochpasses}
         \label{fig:bode}
     \end{figure}
 
     \begin{figure}
         \centering
-        \includegraphics[width=\imagewidth]{../versuch1/ortskurve}
+        \includegraphics[width=0.7\imagewidth]{../versuch1/ortskurve}
         \caption{Ortskurven des Hochpasses}
         \label{fig:ortskurve}
     \end{figure}
@@ -147,18 +152,18 @@
         \end{tabular}
     \end{table}
     
-    Somit ist die Solltemperatur die Führungsgröße, die Eingangsspannung am Zweipunktegler entspricht der Stellgröße und die Ausgangstemperatur des Heizelements ist die Regelgröße. Der zeitliche Verlauf dieser Variablen über \SI{70}{\minute} ist in Abbildung \ref{fig:tempregler_plot} dargestellt. Durch Verändern der Schaltschwelle zu  \(\pm\SI{0.01}{\volt}\) erhält man Abbildung \ref{fig:tempregler_plot_new}.
+    Somit ist die Solltemperatur die Führungsgröße, die Eingangsspannung am Zweipunktegler entspricht der Stellgröße und die Ausgangstemperatur des Heizelements ist die Regelgröße. Der zeitliche Verlauf dieser Variablen über \SI{70}{\minute} mit einer maximalen Schrittweite von \SI{0.42}{\second} ist in Abbildung \ref{fig:tempregler_plot} dargestellt. Es wurde der schrittweitengesteuerte ode-45-Algorithmus verwendet. Durch Verändern der Schaltschwelle zu  \(\pm\SI{0.3}{\volt}\) erhält man Abbildung \ref{fig:tempregler_plot_new}.
 
-    \begin{figure}
+    \begin{figure}[hbt]
         \centering
-        \includegraphics[width=\imagewidth]{../versuch1/tempregler_block.png}
+        \includegraphics[width=1.3\imagewidth]{../versuch1/tempregler_block.png}
         \caption{Blockschaltbild des Temperaturreglers}
         \label{fig:tempregler_block}
     \end{figure}    
 
     Aus den Abbildungen ist zu erkennen: Wird die Differenz zwischen Soll- und Ist-temperatur zu groß, wird die Schaltschwelle \(u_{ein}\) überschritten und der Zweipunktegler aktiviert die Heizung. Bei umgekehrten Vorzeichen wird die Heizung ausgeschalten. Durch Verkleinern der Schaltschwelle wird der Regler häufiger umschalten und die Ist-Temperatur weicht weniger von der Führungsgröße ab. Der Code zum Darstellen der Ergebnisse findet sich in \ref{lst:tempregler}.
 
-    \begin{figure}
+    \begin{figure}[hbt]
         \centering
         \begin{subfigure}{0.49\columnwidth}
             \includegraphics[width=1.0\columnwidth]{../versuch1/tempregler_plot.png}
@@ -168,7 +173,7 @@
         \hfill%
         \begin{subfigure}{0.49\columnwidth}
             \includegraphics[width=1.0\columnwidth]{../versuch1/tempregler_plot_new.png}
-            \caption{Schaltschwelle \(\pm\SI{0.01}{\volt}\)}
+            \caption{Schaltschwelle \(\pm\SI{0.3}{\volt}\)}
             \label{fig:tempregler_plot_new}
         \end{subfigure}
         \caption{Zeitliche Darstellung der Regelgrößen}
@@ -195,7 +200,7 @@
 \section{MATLAB-Code der Sinussignale}
     \lstinputlisting[language=MATLAB, label={lst:sinus}]{../versuch1/sinus.m}
 
-\section{MATLAB-Code zum Tiefpass}
+\section{MATLAB-Code zum Hochpass}
     \lstinputlisting[language=MATLAB, label={lst:tiefpass}]{../versuch1/hochpass.m}
 
 \section{MATLAB-Code zum Temperaturregler}

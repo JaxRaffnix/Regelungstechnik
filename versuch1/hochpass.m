@@ -4,7 +4,7 @@ LOCAL_DIRECTORY = "C:\Users\janho\Coding\Regelungstechnik\versuch1\";
 
 FREQUENCY = 100e3;
 RESISTOR = 1e3;
-CAPACITOR = 1 / (2.*pi.*FREQUENCY.*RESISTOR)    % = 1.5915e-9
+CAPACITOR = 1 / (2.*pi.*FREQUENCY.*RESISTOR)    % = 1.59e-9
 
 numerator = [RESISTOR*CAPACITOR, 0];
 denominator = [RESISTOR*CAPACITOR, 1];

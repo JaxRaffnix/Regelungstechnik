@@ -1,29 +1,35 @@
 % global parameters
 LOCAL_DIRECTORY = "C:\Users\janho\Coding\Regelungstechnik\versuch1\";
 STOPTIME = 70*60 - 1;   % hide last data point to hide second positive flank of the pulse generator
-POINTS = 1e7;
+POINTS = 1e4;
 
-STEPSIZE = STOPTIME / POINTS;
+STEPSIZE = STOPTIME / POINTS    % = 0.42
 
 
 % set model parameters
-model = LOCAL_DIRECTORY +  'tempregler_modell.slx';
 k1 = 10/400;
 k2 = 400/230;
 time_const = 15*60;
-
-% run first simulation
 controlller_on = 0.2;
 controller_off = -0.2;
-% output = sim(model, "StopTime", num2str(STOPTIME), 'FixedStep', num2str(STEPSIZE));  % 1: control variable, 2: manipulated_variable, 3: reference_variable
-options = simset('SrcWorkspace','current');
-set_param(model, 'FixedStep', '0.00001')
-output = sim(model, "StopTime", num2str(STOPTIME));  % 1: control variable, 2: manipulated_variable, 3: reference_variable
+
+% first simulation
+%model = LOCAL_DIRECTORY +  'tempregler_modell.slx';
+model = "tempregler_modell";
+load_system(model);
+
+% open_system(model);
+set_param(model,...
+    "SolverType","Variable-step", ...
+    "SolverName", "VariableStepAuto", ...
+    "MaxStep", num2str(STEPSIZE), ...
+    "StopTime", num2str(STOPTIME));
+output = sim(model);    % 1: control variable, 2: manipulated_variable, 3: reference_variable
 
 % second simulation with changed parameters
-controlller_on = 0.01;
-controller_off = -0.01;
-output_new = sim(model, "StopTime", num2str(STOPTIME), 'FixedStep', "0.0001");  % 1: control variable, 2: manipulated_variable, 3: reference_variable
+controlller_on = 0.3;
+controller_off = -0.3;
+output_new = sim(model);    % 1: control variable, 2: manipulated_variable, 3: reference_variable
 
 
 % plotting
@@ -33,7 +39,9 @@ unit = {"Temperatur in °C", "Spannung in V", "Temperatur in °C"};
 figure;
 tempregler_plot = tiledlayout("vertical");
 nexttile(tempregler_plot);
-plot(output.yout{1}.Values.Time, output.yout{1}.Values.Data, output.yout{3}.Values.Time, output.yout{3}.Values.Data);
+plot(output.yout{1}.Values.Time, output.yout{1}.Values.Data);
+hold on
+plot(output.yout{3}.Values.Time, output.yout{3}.Values.Data)
 xlabel("Zeit in s")
 ylabel("Temperatur in °C")
 
@@ -41,7 +49,7 @@ yyaxis right
 plot(output.yout{2}.Values.Time, output.yout{2}.Values.Data);
 ylabel("Spannung in V")
 
-legend("Führungsgröße", "Stellgröße", "Regelgröße")
+legend("Führungsgröße", "Regelgröße", "Stellgröße")
     
 saveas(tempregler_plot, LOCAL_DIRECTORY + "tempregler_plot.png")
 
