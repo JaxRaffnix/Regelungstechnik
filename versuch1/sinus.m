@@ -18,19 +18,16 @@ f2 = sine2(time);
 f3 = f1 .* f1;
 
 % plot functions
-sinplots = tiledlayout(4,1);
+sinplots = tiledlayout(2,1);
 nexttile
-plot(time, f1)
-xlabel('t in s')
-title('x1(t)')
-nexttile
+plot(time, f1);
+hold on 
 plot(time, f2)
-xlabel('t in s')
-title('x2(t)')
-nexttile
+hold on 
 plot(time, f3)
 xlabel('t in s')
-title('x3(t)')
+legend('x1(t)', 'x2(t)', 'x3(t)')
+title('x1(t), x2(t) und x3(t)')
 nexttile
 plot(f1, f2)
 xlabel('x1(t)')

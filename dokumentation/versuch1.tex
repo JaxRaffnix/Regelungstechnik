@@ -53,9 +53,8 @@
     \end{align}
 
     \noindent
-    aus der Versuchsanleitung \cite{versuch1} werden für den Zeitbereich \SIrange{0}{3}{\milli\second} mit MATLAB simuliert und in Abbildung \ref{fig:sinus} dargestellt.
-    Darüber hinaus wird eine Lissajous-Figur mit \(x_1(t)\) auf der x-Achse und \(x_2(t)\) auf der y-Achse abgebildet. 
-    Es ist zu erkennen, dass die Frequenz von \(x_3(t)\) das doppelte der Frequenz von \(x_1(t)\) mit einem DC-Offset beträgt.
+    aus der Versuchsanleitung \cite{versuch1} werden für den Zeitbereich \SIrange{0}{3}{\milli\second} und \num{e3} Abtastpunkten mit MATLAB simuliert und in Abbildung \ref{fig:sinus} dargestellt. Aus dem Diagramm lässt sich ablesen, dass die Frequenz von \(x_3(t)\) genau das doppelte der Frequenz von \(x_1(t)\) mit einem DC-Offset ist.
+    Darüber hinaus wird eine Lissajous-Figur erstellt. Dabei werden auf den Diagrammachsen die Funktionen \(x_1(t)\) (x-Achse) und \(x_2(t)\) (y-Achse) eingetragen. Es entsteht ein geschlossenes Muster, da das Frequenzverhältnis mit 1:3 rational ist. 
 
     \begin{figure}[hbt]
         \centering
@@ -65,7 +64,17 @@
         \label{fig:sinus}
     \end{figure}
 
-    Wird der Zeitbereich der Lissajous-Figuren jedoch auf \SIrange{0}{3}{\second} gelegt und somit die Größenordnung um \(10^3\) erhöht, bleibt das Bild aufgrund des Aliasing-Effekts identisch. Wird der Zeitbereich leicht verschoben, entsteht ein nicht interpretierbares Bild. Beide Änderungen sind in Abbildung \ref{fig:lissajous} gezeigt. Der Code zum Erstellen der Grafiken befindet sich im Anhang \ref{lst:sinus}.
+    Wird der Zeitbereich der Lissajous-Figuren jedoch auf \SIrange{0}{3}{\second} bei gleicher Anzahl an Abtastpunkten gelegt, ändert sich die Abtastrate \(f_s\) von 
+
+    \begin{align}
+        f_s = \frac{\num{e3}}{\SI{3e-3}{\second}} = \SI{333.3}{\kilo\hertz}
+        \intertext{zu der neuen Frequenz}
+        f_{s,neu} = \frac{\num{e3}}{\SI{3}{\second}} = \SI{333.3}{\hertz}
+    \end{align}
+
+    Die Frequenz der Signale \(x_1(t)\) und \(x_2(t)\) ist deutlich größer als die halbe Abtastfrequenz \(f_{s,neu}\), dass Abtasttheorem von Shannon ist verletzt und es kommt zum Aliasing. Da das Frequenzverhältnis der falsch aufgenommen Signale weiterhin identisch ist, bleibt die Lissajous-Figur identisch.
+    
+    Beim Verändern der Abtastpunkte entsteht ein nicht interpretierbares Bild. Das ist darin begründet, dass das Frequenzverhältnis der gemessenen Frequenzen nicht mehr als Bruch zweier ganzer Zahlen dargestellt werden kann. Beide Änderungen sind in Abbildung \ref{fig:lissajous} gezeigt. Der Code zum Erstellen der Grafiken befindet sich im Anhang \ref{lst:sinus}.
 
     \begin{figure}[hbt]
         \centering
@@ -80,19 +89,15 @@
     \begin{align}
         \label{eq:hochpass}
         \frac{U_a}{U_e} &= \frac{jwRC}{1+jwRC}
-    \end{align}
-
-    Und die Grenzfrequenz somit zu
-    
-    \begin{align}
+        \intertext{Und die Grenzfrequenz berechnet sich mit}
         f_g &= \frac{1}{2 \pi R C}\\
-        \intertext{Wird der Widerstand \(R\) auf \SI{1}{\kilo\ohm} und die Grenzfrequenz zu \SI{1e5}{\hertz} gewählt, berechnet sich die Kapazität zu:}
+        \intertext{Wird der Widerstand \(R\) auf \SI{1}{\kilo\ohm} und die Grenzfrequenz zu \SI{e5}{\hertz} gewählt, berechnet sich die Kapazität zu:}
         C &= \frac{1}{2 \pi R f_g} = \SI{1.59e-9}{\farad}
     \end{align}
 
-    Nun kann das vollständige Übertragungssystem in MATLAB verwendet werden. Das erzeugte Bodediagramm findet sich in Abbildung \ref{fig:bode} und die zugehörige Ortskurve in Abbildung \ref{fig:ortskurve}. Da die Ortskurve achsensymmetrisch zur x-Achse ist, kann das Diagramm ohne den Verlust von Informationen um genau diese Spiegelung verkürzt werden. Dies wird durch die Option \verb|ShowFullContour='off'| des \verb|nyquistplot|-Befehls erreicht. Der Code zum Erstellen der Diagramme findet sich in Anhang \ref{lst:tiefpass}.
+    Nun kann das vollständige Übertragungssystem in MATLAB verwendet werden. Das erzeugte Bodediagramm findet sich in Abbildung \ref{fig:bode} und die zugehörige Ortskurve in Abbildung \ref{fig:ortskurve}. Da beim Betrachten von negativen Frequenzen auf der Ortskurve die Funktion achsensymmetrisch zur x-Achse ist, kann das Diagramm ohne den Verlust von Informationen um genau diese Spiegelung verkürzt werden. Dies wird durch die Option \verb|ShowFullContour='off'| des \verb|nyquistplot|-Befehls erreicht. Der Code zum Erstellen der Diagramme findet sich in Anhang \ref{lst:tiefpass}.
 
-    \begin{figure}
+    \begin{figure}[hbt]
         \centering
         \includegraphics[width=\imagewidth]{../versuch1/bode}
         \caption{Bodediagramm des Hochpasses}
@@ -123,7 +128,7 @@
         = \sqrt{ \frac{1}{4} \left( \frac{(wRC)^2 - 1}{(wRC)^2 + 1} \right)^2 + \frac{1}{4} \left( \frac{2wRC}{(wRC)^2 + 1} \right)^2} = \frac{1}{2} \sqrt{ \frac{ \left(\left(wRC\right)^2 - 1\right)^2 + 4 (wRC)^2 }{\left(\left(wRC\right)^2 + 1\right)^2} } = \frac{1}{2}
     \end{align}
 
-    \clearpage
+    Somit ist gezeigt, dass der Radius tatsächlich 0.5 beträgt und die Kreisgleichung erfüllt ist.
 
 \section{Temperaturregler mit SIMULINK}
     Zuletzt wird der Temperaturregler für einen Backofen betrachtet. Aus der Aufgabenstellung \cite{versuch1} wird das Blockschaltbild in SIMULINK erzeugt (siehe Abbildung \ref{fig:tempregler_block}). Der Puls-Generator am Eingang simuliert das Einschalten auf eine Solltemperatur von \SI{160}{\celsius} zu Beginn der Simulation und das Ausschalten nach \SI{30}{\minute}. Mit dem Parameter \(K_1\) wird diese Temperatur zu einem Spannungswert übersetzt. Der Zweipunktregler schaltet bei der Spannung \(u_{ein}\) ein und gibt eine Spannung von \SI{230}{\volt} aus. Bei einer Eingangsspannung von \(u_{aus}\) schaltet er ab. Das Heizgerät wird mit einem PT1-Glied simuliert. Dabei wird mit \(K_2\) das Ergebnis wiederum als Temperatur zurückgerechnet. Die Werte der einzelnen Simulationswerte sind in Tabelle \ref{tab:tempregler} gezeigt. 
