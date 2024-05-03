@@ -35,3 +35,6 @@
 *.bbl*
 *.bcf*
 *slprj*
+*.slxc
+*.slx.autosave
+*.slx..original
