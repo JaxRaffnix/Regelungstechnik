@@ -1,9 +1,9 @@
 %___________________________________________________________________
 % global parameters
 LOCAL_DIRECTORY = 'C:\Users\janho\Coding\Regelungstechnik\versuch2\';
-STEPTIME = 1;
+STOPTIME = 1;
 POINTS = 1e3;
-STEPSIZE = STEPTIME / POINTS;
+STEPSIZE = STOPTIME / POINTS;
 SURFACE_AREA = pi*(18e-2)^2;
 
 KR_list = {1,2,3,4,5};
@@ -18,17 +18,20 @@ set_param(model,...
 
 %___________________________________________________________________
 % run simulation 
-for i = 1:3
-    KR = KR_list(i);
+for i = 1:length(KR_list)
+    KR = cell2mat(KR_list(i));
     output = sim(model);
 
     % plotting
     figure
+    kessel_plot = tiledlayout('vertical');
     for j = 1:3
-        plot(output_1.tout, output_1.yout{i}.Values.Data);
+        plot(output.tout, output.yout{j}.Values.Data);
         hold on 
     end
     xlabel('Zeit in s')
+    title(sprintf('KR = %d', KR))
+    hold off
 end
 
 %___________________________________________________________________
