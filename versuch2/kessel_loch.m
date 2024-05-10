@@ -28,18 +28,20 @@ for i = 1:length(KR_list)
 
     % plotting
     nexttile
-        plot(output.tout, output.yout{1}.Values.Data);
-        hold on 
-        plot(output.tout, output.yout{2}.Values.Data);
-        hold on
-        yyaxis right
-        plot(output.tout, output.yout{3}.Values.Data);
+    yyaxis left
+    ylim = [0, 0.2];
+    plot(output.tout, output.yout{1}.Values.Data);
+    hold on 
+    plot(output.tout, output.yout{2}.Values.Data);
+    hold on
+    yyaxis right
+    plot(output.tout, output.yout{3}.Values.Data);
     hold off
     title(sprintf('KR = %f', KR))
 end
 
 xlabel(kessel_plot, 'Zeit in s')
-lgd = legend('Führungsgröße in m', 'Regelgröße in m', 'Stellgröße in $\frac{m^3}{s}$', 'Interpreter','latex');
+lgd = legend('Führungsgröße in m', 'Regelgröße in m', 'Stellgröße in m^3/s');
 lgd.Layout.Tile = 'South';
 
 save_system(model)
