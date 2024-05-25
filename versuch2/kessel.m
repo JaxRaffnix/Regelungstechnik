@@ -1,3 +1,5 @@
+addpath('../functions/')
+
 %___________________________________________________________________
 % global parameters
 LOCAL_DIRECTORY = 'C:\Users\janho\Coding\Regelungstechnik\versuch2\';
@@ -27,6 +29,10 @@ for i = 1:length(KR_LIST)
     output = sim(model);
 
     % find the time constant value
+    index = time_constant(output.yout{3}.Values.Data, false);
+    tau = output.yout{3}.Values.Time(index);
+    fprintf('KR = %.4f \t Tau = %.4f\n', KR, tau)
+
     ERROR_MARGIN = ERROR_MARGIN_LIST(i);
     max_value = output.yout{3}.Values.Data(1);
     q_t = max_value * (1 - 0.632);
@@ -51,7 +57,7 @@ for i = 1:length(KR_LIST)
         xlabel('Zeit in s')
 
         %plot time constant
-        xline(t_t, ':', 'Time constant')
+        xline(tau, ':', 'Time constant')
 end
 
 lgd = legend('Führungsgröße', 'Stellgröße', 'Regelgröße');
