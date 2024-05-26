@@ -6,7 +6,6 @@ LOCAL_DIRECTORY = 'C:\Users\janho\Coding\Regelungstechnik\versuch2\';
 
 KR_LIST =           [1e-2, 5e-3, 1e-3, 5e-4, 1e-4];
 STOPTIME_LIST =     [20, 30, 200, 500, 2000];
-ERROR_MARGIN_LIST = [1e-5, 1e-5, 1e-6, 1e-6, 1e-7];
 
 %___________________________________________________________________
 % load model
@@ -29,17 +28,9 @@ for i = 1:length(KR_LIST)
     output = sim(model);
 
     % find the time constant value
-    index = time_constant(output.yout{3}.Values.Data, false);
+    index = TimeConstantIndex(output.yout{3}.Values.Data);
     tau = output.yout{3}.Values.Time(index);
     fprintf('KR = %.4f \t Tau = %.4f\n', KR, tau)
-
-    ERROR_MARGIN = ERROR_MARGIN_LIST(i);
-    max_value = output.yout{3}.Values.Data(1);
-    q_t = max_value * (1 - 0.632);
-    index_list = find(abs(output.yout{3}.Values.Data - q_t) < ERROR_MARGIN);
-    t_t_index = index_list(1);
-    t_t = output.yout{3}.Values.Time(t_t_index);
-    fprintf('KR = %.4f \t Tau = %.4f\n', KR, t_t)
 
     % plotting
     nexttile
