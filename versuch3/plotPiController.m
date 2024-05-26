@@ -4,7 +4,8 @@
 
 model = 'piController';
 
-bestTN = BestResetTime(model, 'TN', 3, 1,  100, 0.1)
+bestTN = BestResetTime(model, 'TN', 'rotation speed', 1,  100, 0.1)
+% = 2.5
 
 output = sim(model);
 
@@ -14,22 +15,22 @@ figure
 motor_plot = tiledlayout('vertical');
 
 nexttile
-plot(output.tout, output.yout{1}.Values.Data);
+plot(output.tout, get(output.yout, 'current').Values.Data);
 title('Strom');
 ylabel('Strom in A')
 
 nexttile
-plot(output.tout, output.yout{2}.Values.Data);
+plot(output.tout, get(output.yout, 'torque').Values.Data);
 title('Drehmoment');
 ylabel('Drehmoment in Nm')
 
 nexttile
-plot(output.tout, output.yout{3}.Values.Data);
+plot(output.tout, get(output.yout, 'rotation speed').Values.Data);
 title('Drehzal');
 ylabel('Drehzal in rad/s')
 xlabel(motor_plot, 'Zeit in s')
 
-saveas(motor_plot, "p_regler_plot.png")
+saveas(motor_plot, "pi_regler_plot.png")
 
 % save_system(model);
 % close_system(model);
