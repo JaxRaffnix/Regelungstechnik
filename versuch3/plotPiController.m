@@ -1,13 +1,10 @@
 
 %___________________________________________________________________
-% run simulation 
+% find optimum TN and run simulation
+
 model = 'piController';
-load_system(model);
 
-%___________________________________________________________________
-% find optimum TN
-
-best = BestResetTime(model, 3);
+bestTN = BestResetTime(model, 'TN', 3, 1,  100, 0.1)
 
 output = sim(model);
 
@@ -34,5 +31,5 @@ xlabel(motor_plot, 'Zeit in s')
 
 saveas(motor_plot, "p_regler_plot.png")
 
-save_system(model);
-close_system(model);
+% save_system(model);
+% close_system(model);

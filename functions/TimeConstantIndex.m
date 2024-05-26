@@ -17,7 +17,7 @@ function index = TimeConstantIndex(data)
     elseif all(diffs <= 0)
         is_rising = false;
     else
-        error('Input data must be monoton increasing or decreasing.');
+        error('Input data must be monotonic increasing or decreasing.');
     end
 
     OFFSET = 0.632;
