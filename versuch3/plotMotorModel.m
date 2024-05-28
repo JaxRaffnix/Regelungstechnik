@@ -37,7 +37,8 @@ xlabel(motor_plot, 'Zeit in s')
 %plot time constant
 xline(tau, ':', ['\tau = ' sprintf('%.2f', tau)])
 
-saveas(motor_plot, "motor_plot.png")
+saveas(motor_plot, "graphMotorModel.png");
+saveas(get_param(model, 'Handle'), 'blockMotorModel.png')
 
 save_system(model)
 close_system(model);

@@ -12,22 +12,21 @@ figure
 motor_plot = tiledlayout('vertical');
 
 nexttile
-plot(output.tout, get(output.yout, 'current').Values.Data);
-title('Strom');
-ylabel('Strom in A')
-
-nexttile
-plot(output.tout, get(output.yout, 'torque').Values.Data);
-title('Drehmoment');
-ylabel('Drehmoment in Nm')
-
-nexttile
+plot(output.tout, get(output.yout, 'rotation speed control').Values.Data);
+hold on
 plot(output.tout, get(output.yout, 'rotation speed').Values.Data);
 title('Drehzal');
 ylabel('Drehzal in rad/s')
+legend('Führungsgröße', 'Regelgröße');
+
+nexttile
+plot(output.tout, get(output.yout, 'voltage').Values.Data);
+title('Eingangsspannung');
+ylabel('Spannung in V')
 xlabel(motor_plot, 'Zeit in s')
 
-saveas(motor_plot, "p_regler_plot.png")
+saveas(motor_plot, "graphPController.png");
+saveas(get_param(model, 'Handle'), 'blockPController.png')
 
 save_system(model)
 close_system(model);
