@@ -1,0 +1,158 @@
+% !TeX TXS-program:bibliography = txs:///biber
+
+\documentclass[
+    paper=a4,
+    fontsize=10pt,
+    DIV=12,
+    % twocolumn,
+    oneside,
+]{scrartcl}
+
+%___________________________________________________________________
+% Imports
+\input{preamble}
+
+% \setlength{\imagewidth}{1\columnwidth}
+
+%___________________________________________________________________
+% Title Page
+\title{Laborversuch zur Drehzahlregelung}
+\labor{3}
+\date{\today}
+
+%___________________________________________________________________
+% Begin
+\begin{document}
+
+\maketitle
+
+%___________________________________________________________________
+% Abstract
+\begin{abstract}
+    \noindent    
+    \subsubsection*{Abstract}
+        Im dritten Regelungstechniklabor wird das Verhalten eines Elektromotors mithilfe von Matlab und SIMULINK betrachtet. Es wird ein stationär genauer Regelkreis als PI-Regler erarbeitet und sein Verhalten bei Überschwingern und zeitabhängigen Lastmomenten beobachtet.
+\end{abstract}
+
+%___________________________________________________________________
+% Text
+
+\section{Motor im Nennbetrieb}
+    Die Gleichungen für den Gleichstrommotor wurden der Laboranleitung \cite{versuch3} entnommen. 
+    \begin{align}
+        \omega  &= 73.68 \frac{\si{\newton\meter}}{\si{\ampere\kilogram\metre\squared}} \int i \, dt\\
+        i       &= \frac{1}{\SI{1e8}{\henry}} \int u - 0.028 \si{\newton\meter\per\ampere} \omega - 5 \si{\ohm} i \, dt\\
+        M       &= 0.028 \si{\newton\meter\per\ampere} i
+    \end{align}
+    
+    In SIMULINK wird das zugehöirige Blockschaltbild als Subsystem entwickelt (siehe Abbildung \ref{fig:blockMotor}) und anschließend an eine konstante Spannungsversorgung von \SI{10}{\volt} angeschlossen. Der zeitliche Verlauf der Ausgangsgrößen ist in Abbildung \ref{fig:graphMotor} dargestellt. Die Zeitkonstante \(\tau\) berechnet sich zu \SI{2.3843}{\second}.
+
+    \begin{figure}[hbt]
+        \centering
+        \includegraphics[width=1.3\imagewidth]{../versuch3/blockMotor}
+        \caption{Blockschaltbild des Motor}
+        \label{fig:blockMotor}
+    \end{figure}   
+
+    \begin{figure}[hbt]
+        \centering
+        \includegraphics[width=\imagewidth]{../versuch3/graphMotorModel.png}
+        \caption{Motor im Nennbetrieb}
+        \label{fig:graphMotor}
+    \end{figure}   
+
+\section{Motorsteuerung mit P-Regler}
+    Um die Drehzahl des Motors einzustellen wird ein P-Regler erstellt und an das Motorsubsystem angeschlossen (siehe Abbildung \ref{fig:blockPController}). Die Eingangsspannung am Motor wird mit einem Sättigungsblock in SIMULINK auf \(U_{max} = \pm \SI{10}{\volt}\) begrenzt. Die Verstärkung \(K_R\) des Reglers wird so eingestellt, dass der Sättigungsblock gerade nicht begrenzt bei einem Sollwert von \(\omega_{soll} = \SI{100}{\radian\per\second}\).
+    \begin{align}
+        K_R = \frac{u_{max}}{\omega_{soll}} = \frac{\SI{10}{\volt}}{\SI{100}{\radian\per\second}} = \SI{0.1}{\volt\second\per\radian}
+    \end{align}
+
+    \begin{figure}[hbt]
+        \centering
+        \includegraphics[width=1.3\imagewidth]{../versuch3/blockPController}
+        \caption{Blockschaltbild des P-Reglers}
+        \label{fig:blockPController}
+    \end{figure} 
+
+    Der zeitliche Verlauf der Reglergrößen ist in Abbildung \ref{fig:graphPController} gezeigt. Es ist zu erkennen, dass der Motor nur \(\omega_{ist} = \SI{78,1}{\radian\per\second}\) erreicht und damit nicht stationär genau ist. Das ist darin begründet, dass in diesem Zustand die Eingangsspannung am Motor 
+    \begin{align}
+        U = K_R \cdot (\omega_{soll} - \omega_{ist}) = \SI{0.1}{\volt\second\per\radian} \cdot \left( \SI{100}{\radian\per\second} - \SI{78.1}{\radian\per\second} \right) = \SI{2.19}{\volt}
+    \end{align}
+    beträgt und diese Spannung wiederum zu einer Drehzahl von \(\omega_{ist} = \SI{78,1}{\radian\per\second}\) am Motor führt.
+
+    \begin{figure}[hbt]
+        \centering
+        \includegraphics[width=\imagewidth]{../versuch3/graphPController}
+        \caption{Reglergrößen des P-Reglers}
+        \label{fig:graphPController}
+    \end{figure}   
+
+\section{Motorsteuerung mit PI-Regler}
+    Der Regler aus dem vorherigen Abschnitt wird um einen Integrator erweitert (Abbildung \ref{fig:blockPiController}). Die beste Nachstellzeit \(T_N\), bei der gerade so kein Überschwinger für \(\omega_{soll} = \SI{100}{\radian\per\second}\) entsteht, wird mit einer ausgelagerten Funktion ermittelt (siehe Anhang \ref{lst:TN}). Dabei wird das Modell so lange mit veränderter Nachstellzeit aufgerufen, bis der Maximalwert der Reglergröße kleiner ist als der Sollwert. Es ergibt sich ein Wert von \(T_N = \SI{2.43}{\second}\)
+
+    \begin{figure}[hbt]
+        \centering
+        \includegraphics[width=1.5\imagewidth]{../versuch3/blockPiController}
+        \caption{Blockschaltbild des PI-Reglers}
+        \label{fig:blockPiController}
+    \end{figure}   
+
+    Der zeitliche Verlauf der Reglergrößen ist in Abbildung \ref{fig:graphPiController} dargestellt. Zusätzlich wird die Spannung vor und nach dem Sättigungsblock betrachtet. Wird die Führungsgröße auf \(\omega_{soll} = \SI{300}{\radian\per\second}\) angehoben (Abbildung \ref{fig:graphPiControllerNew}), kommt es zu Überschwingern. Das liegt daran, dass in der Zeit, in welcher der Begrenzer aktiv ist, sich der I-Anteil des Reglers weiter erhöht. 
+
+    \begin{figure}[hbt]
+        \centering
+        \begin{subfigure}{0.49\columnwidth}
+            \includegraphics[width=1.0\columnwidth]{../versuch3/graphPiController.png}
+            \caption{Sollwert \(\omega_{soll} = \SI{100}{\radian\per\second}\)}
+            \label{fig:graphPiController}   
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}{0.49\columnwidth}
+            \includegraphics[width=1.0\columnwidth]{../versuch3/graphPiControllerNew.png}
+            \caption{Sollwert \(\omega_{soll} = \SI{300}{\radian\per\second}\)}
+            \label{fig:graphPiControllerNew}
+        \end{subfigure}
+        \caption{Reglergrößen des P-Reglers}
+    \end{figure}
+
+\section{Motorregelung mit veränderlichen Lastmoment}
+    Nun wird ein Lastmoment, dass der Drehbewegung entgegenwirkt, nach \SI{10}{\second} hinzugeschaltet. Das erweiterte Blockschaltbild ist in Abbildung \ref{fig:blockPiControllerLoad} zu finden, das Diagramm der Reglergrößen in Abbildung \ref{fig:graphPiControllerload}. Es wurde zusätzlich das Drehmoment des Motors und das Drehmoment am Ausgang aufgezeichnet.
+
+    \begin{figure}[hbt]
+        \centering
+        \includegraphics[width=1.7\imagewidth]{../versuch3/blockPiControllerLoad}
+        \caption{Blockschaltbild des PI-Reglers mit Lastmoment}
+        \label{fig:blockPiControllerLoad}
+    \end{figure}
+
+    \begin{figure}[hbt]
+        \centering
+        \includegraphics[width=\imagewidth]{../versuch3/graphPiControllerLoad}
+        \caption{Reglergrößen des PI-Reglers mit Lastmoment}
+        \label{fig:graphPiControllerload}
+    \end{figure}  
+
+%___________________________________________________________________
+% End
+
+\printbibliography[heading=bibnumbered]
+
+\section{Autorenbeiträge}
+    Maileen Schwenk und Jan Hoegen erstellten die Vorbereitung und Messauswertung. Jan Hoegen schrieb den Bericht.
+
+\section{Verfügbarkeit des Codes}
+    Der Code zum Auswerten der Daten und Erstellen der Diagramme findet sich unter \url{https://github.com/JaxRaffnix/Regelungstechnik}. Ebenfalls ist hier der Code zum Erstellen dieser Ausarbeitung hinterlegt.
+
+%___________________________________________________________________
+% Appendix
+\appendix   
+
+\section{MATLAB-Code zur Modellauswertung}
+    \lstinputlisting[language=MATLAB, label={lst:}]{../versuch3/plotMotorModel.m}
+    \lstinputlisting[language=MATLAB, label={lst:}]{../versuch3/plotPController.m}
+    \lstinputlisting[language=MATLAB, label={lst:}]{../versuch3/plotPiController.m}
+    \lstinputlisting[language=MATLAB, label={lst:}]{../versuch3/plotPiControllerLoad.m}
+    \lstinputlisting[language=MATLAB, label={lst:TN}]{../functions/BestResetTime.m}
+    \lstinputlisting[language=MATLAB, label={lst:}]{../functions/TimeConstantIndex.m}
+
+\end{document}

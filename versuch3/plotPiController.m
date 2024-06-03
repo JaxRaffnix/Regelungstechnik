@@ -7,7 +7,7 @@ model = 'piController';
 rotationSpeedControl = 100;
 
 bestTN = BestResetTime(model, 'TN', 'rotation speed', 2.4, 0.01)
-% = 2.5
+% =  2.43
 
 output = sim(model);
 
@@ -69,7 +69,7 @@ xlabel(motor_plot_new, 'Zeit in s')
 
 saveas(motor_plot_new, "graphPiControllerNew.png");
 
-saveas(get_param(model, 'Handle'), 'blockPiControllerNew.png')
+saveas(get_param(model, 'Handle'), 'blockPiController.png')
 
 % save_system(model);
 close_system(model);

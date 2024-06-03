@@ -11,7 +11,7 @@ output = sim(model);
 %___________________________________________________________________
 % find the time constant value
 
-index = TimeConstantIndex(output.yout{3}.Values.Data);
+index = TimeConstantIndex(output.yout{3}.Values.Data);  % =  2.3843
 tau = output.tout(index)
 
 %___________________________________________________________________
@@ -39,6 +39,10 @@ xline(tau, ':', ['\tau = ' sprintf('%.2f', tau)])
 
 saveas(motor_plot, "graphMotorModel.png");
 saveas(get_param(model, 'Handle'), 'blockMotorModel.png')
+
+load_system('motorSubsystem')
+saveas(get_param('motorSubsystem', 'Handle'), 'blockMotor.png')
+close_system('motorSubsytem')
 
 save_system(model)
 close_system(model);

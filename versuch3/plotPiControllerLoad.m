@@ -4,11 +4,8 @@
 % addpath('../functions/')
 
 model = 'piControllerLoad';
-rotationSpeedControl = 100;
-TN = 2.44;
-
-% bestTN = BestResetTime(model, 'TN', 'rotation speed', 2.4, 0.01)
-% = 2.5
+load_system(model);
+% rotationSpeedControl = 100;
 
 output = sim(model);
 
