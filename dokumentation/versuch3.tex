@@ -78,7 +78,7 @@
     \begin{align}
         U = K_R \cdot (\omega_{soll} - \omega_{ist}) = \SI{0.1}{\volt\second\per\radian} \cdot \left( \SI{100}{\radian\per\second} - \SI{78.1}{\radian\per\second} \right) = \SI{2.19}{\volt}
     \end{align}
-    beträgt und diese Spannung wiederum zu einer Drehzahl von \(\omega_{ist} = \SI{78,1}{\radian\per\second}\) am Motor führt.
+    beträgt und diese Spannung wiederum zu einer Drehzahl von \(\omega_{ist} = \SI{78,1}{\radian\per\second}\) am Motor führt. Der Aussteuerbereich des Reglers ist also nicht groß genug.
 
     \begin{figure}[hbt]
         \centering
@@ -97,17 +97,17 @@
         \label{fig:blockPiController}
     \end{figure}   
 
-    Der zeitliche Verlauf der Reglergrößen ist in Abbildung \ref{fig:graphPiController} dargestellt. Zusätzlich wird die Spannung vor und nach dem Sättigungsblock betrachtet. Wird die Führungsgröße auf \(\omega_{soll} = \SI{300}{\radian\per\second}\) angehoben (Abbildung \ref{fig:graphPiControllerNew}), kommt es zu Überschwingern. Das liegt daran, dass in der Zeit, in welcher der Begrenzer aktiv ist, sich der I-Anteil des Reglers weiter erhöht. 
+    Der zeitliche Verlauf der Reglergrößen ist in Abbildung \ref{fig:graphPiController} dargestellt. Zusätzlich wird die Spannung vor und nach dem Sättigungsblock betrachtet. Wird die Führungsgröße auf \(\omega_{soll} = \SI{300}{\radian\per\second}\) angehoben (Abbildung \ref{fig:graphPiControllerNew}), kommt es zu Überschwingern. Das liegt daran, dass in der Zeit, in welcher der Begrenzer aktiv ist, der I-Anteil des Reglers weiter die Fehlerdifferenz aufsummiert. Wird der gewünschte Wert der Regelgröße erreicht, wird der hohe I-Anteil durch Überschwinger abgebaut.
 
     \begin{figure}[hbt]
         \centering
-        \begin{subfigure}{0.49\columnwidth}
+        \begin{subfigure}{0.5\columnwidth}
             \includegraphics[width=1.0\columnwidth]{../versuch3/graphPiController.png}
             \caption{Sollwert \(\omega_{soll} = \SI{100}{\radian\per\second}\)}
             \label{fig:graphPiController}   
         \end{subfigure}%
         \hfill%
-        \begin{subfigure}{0.49\columnwidth}
+        \begin{subfigure}{0.5\columnwidth}
             \includegraphics[width=1.0\columnwidth]{../versuch3/graphPiControllerNew.png}
             \caption{Sollwert \(\omega_{soll} = \SI{300}{\radian\per\second}\)}
             \label{fig:graphPiControllerNew}
@@ -127,7 +127,7 @@
 
     \begin{figure}[hbt]
         \centering
-        \includegraphics[width=\imagewidth]{../versuch3/graphPiControllerLoad}
+        \includegraphics[width=1.3\imagewidth]{../versuch3/graphPiControllerLoad}
         \caption{Reglergrößen des PI-Reglers mit Lastmoment}
         \label{fig:graphPiControllerload}
     \end{figure}  
