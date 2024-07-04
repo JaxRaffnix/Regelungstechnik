@@ -15,10 +15,10 @@ STOPTIME = 0.1;
 
 load_system(model)
 set_param(model,...
-    "SolverType","Variable-step", ...
-    "SolverName", "VariableStepAuto", ...
-    "MaxStep", num2str(STOPTIME / POINTS), ...
-    "StopTime", num2str(STOPTIME));
+    'SolverType','Variable-step', ...
+    'SolverName', 'VariableStepAuto', ...
+    'MaxStep', num2str(STOPTIME / POINTS), ...
+    'StopTime', num2str(STOPTIME));
 output = sim(model);
 
 %___________________________________________________________________
@@ -33,7 +33,6 @@ fprintf('Value: %f, Index: %.6f\nMaxValue: %f', value_t, time_t, max_value);    
 
 %___________________________________________________________________
 % plotting
-figure
 pid_plot = tiledlayout('vertical');
 
 nexttile
@@ -53,7 +52,10 @@ hold on
 % title('Spannung');
 legend('Stellgröße');
 
-saveas(pid_plot, "graphPidController.png")
+%___________________________________________________________________
+% export and close system
+
+saveas(pid_plot, 'graphPidController.png')
 saveas(get_param(model, 'Handle'), 'blockPidController.png')
 
 save_system(model);
